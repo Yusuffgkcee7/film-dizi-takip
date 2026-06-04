@@ -55,14 +55,13 @@ const App = () => {
 
     // YENİ: Durumu güncelleyen fonksiyon
     const handleUpdateStatus = async (id, currentStatus) => {
-        // Eğer "watched" ise "towatch" yap, "towatch" ise "watched" yap
         const newStatus = currentStatus === "watched" ? "towatch" : "watched";
         try {
             const movieRef = doc(db, "movies", id);
             await updateDoc(movieRef, { status: newStatus });
             
             fetchMovies(); // Arka plandaki listeyi yenile
-            setSelectedPost({ ...selectedPost, status: newStatus }); // Açık olan Modalı anında güncelle
+            setSelectedPost({ ...selectedPost, status: newStatus });
         } catch (error) {
             console.error("Durum güncelleme hatası:", error);
         }
@@ -74,7 +73,6 @@ const App = () => {
 
     return (
         <div className="bg-light min-vh-100 pb-5">
-            {/* Navbar ve Logo */}
             <nav className="navbar navbar-dark bg-dark mb-5 py-3 shadow-sm">
                 <div className="container d-flex justify-content-center">
                     <div className="d-flex align-items-center">
@@ -127,7 +125,6 @@ const App = () => {
                 <DropdownFilter onFilterChange={setSelectedFilter}/>
                 <PostList posts={filteredPosts} onCardClick={setSelectedPost}/>
                 
-                {/* YENİ: onUpdateStatus habercisini Modal'a gönderiyoruz */}
                 <Modal 
                     post={selectedPost} 
                     onClose={() => setSelectedPost(null)} 
