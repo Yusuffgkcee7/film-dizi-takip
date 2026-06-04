@@ -15,7 +15,6 @@ const App = () => {
     const [notes, setNotes] = useState("");
     const [status, setStatus] = useState("towatch");
 
-    // Firebase'den verileri çeken fonksiyon
     const fetchMovies = async () => {
         try {
             const querySnapshot = await getDocs(collection(db, "movies"));
@@ -29,7 +28,7 @@ const App = () => {
         }
     };
 
-    // Sayfa yüklendiğinde verileri getir
+
     useEffect(() => {
         fetchMovies();
     }, []);
@@ -45,7 +44,7 @@ const App = () => {
                 notes: notes,
                 status: status
             });
-            // Formu temizle ve listeyi güncelle
+
             setTitle("");
             setNotes("");
             setStatus("towatch");
@@ -71,7 +70,6 @@ const App = () => {
             </nav>
 
             <div className="container">
-                {/* Veri Ekleme Formu */}
                 <div className="card shadow-sm border-0 mb-5">
                     <div className="card-body p-4">
                         <h4 className="card-title mb-4">Yeni Ekle</h4>
