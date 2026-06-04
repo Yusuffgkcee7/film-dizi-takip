@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import DropdownFilter from "./components/dropdown-filter/dropdown-filter.component";
 import PostList from "./components/post-list/post-list.component";
 import Modal from "./components/modal/modal.component";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "./firebase";
 
 const App = () => {
@@ -28,7 +28,6 @@ const App = () => {
         }
     };
 
-
     useEffect(() => {
         fetchMovies();
     }, []);
@@ -51,6 +50,21 @@ const App = () => {
             fetchMovies();
         } catch (error) {
             console.error("Veri ekleme hatası:", error);
+        }
+    };
+
+    // YENİ: Durumu güncelleyen fonksiyon
+    const handleUpdateStatus = async (id, currentStatus) => {
+        // Eğer "watched" ise "towatch" yap, "towatch" ise "watched" yap
+        const newStatus = currentStatus === "watched" ? "towatch" : "watched";
+        try {
+            const movieRef = doc(db, "movies", id);
+            await updateDoc(movieRef, { status: newStatus });
+            
+            fetchMovies(); // Arka plandaki listeyi yenile
+            setSelectedPost({ ...selectedPost, status: newStatus }); // Açık olan Modalı anında güncelle
+        } catch (error) {
+            console.error("Durum güncelleme hatası:", error);
         }
     };
 
@@ -112,7 +126,13 @@ const App = () => {
 
                 <DropdownFilter onFilterChange={setSelectedFilter}/>
                 <PostList posts={filteredPosts} onCardClick={setSelectedPost}/>
-                <Modal post={selectedPost} onClose={() => setSelectedPost(null)} />
+                
+                {/* YENİ: onUpdateStatus habercisini Modal'a gönderiyoruz */}
+                <Modal 
+                    post={selectedPost} 
+                    onClose={() => setSelectedPost(null)} 
+                    onUpdateStatus={handleUpdateStatus} 
+                />
             </div>
         </div>
     );

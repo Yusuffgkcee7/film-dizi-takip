@@ -8,7 +8,7 @@ const PostCard = ({post, onCardClick}) => {
             <div className="card-body">
                 <h3 className="card-title fs-5">{title}</h3>
                 <p className="card-text text-muted">{notes ? notes.substring(0, 80) : ""}...</p>
-                <span className="text-primary text-decoration-underline mt-3 d-inline-block">Detayları gör</span>
+                <span className="btn btn-outline-dark mt-3">Detayları gör</span>
             </div>
         </div>
     );

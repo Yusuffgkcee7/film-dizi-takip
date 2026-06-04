@@ -1,4 +1,4 @@
-const Modal = ({post, onClose}) => {
+const Modal = ({post, onClose, onUpdateStatus}) => {
     if (!post) return null;
 
     return (
@@ -9,9 +9,20 @@ const Modal = ({post, onClose}) => {
                     <button type="button" className="btn-close" onClick={onClose}></button>
                 </div>
                 <div className="card-body p-4">
-                    <span className="badge bg-secondary mb-3">
-                        {post.status === "watched" ? "İzlendi" : "İzlenecek"}
-                    </span>
+                    {/* Rozet ve Butonu yan yana koyan kısım */}
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                        <span className="badge bg-secondary">
+                            {post.status === "watched" ? "İzlendi" : "İzlenecek"}
+                        </span>
+                        
+                        <button 
+                            className={`btn btn-sm ${post.status === "watched" ? "btn-outline-secondary" : "btn-dark"}`}
+                            onClick={() => onUpdateStatus(post.id, post.status)}
+                        >
+                            {post.status === "watched" ? "İzlenecek Yap" : "İzlendi Olarak İşaretle"}
+                        </button>
+                    </div>
+                    
                     <p className="card-text">{post.notes}</p>
                 </div>
             </div>
