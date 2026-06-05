@@ -9,7 +9,6 @@ const Modal = ({post, onClose, onUpdateStatus}) => {
                     <button type="button" className="btn-close" onClick={onClose}></button>
                 </div>
                 <div className="card-body p-4">
-                    {/* Rozet ve Butonu yan yana koyan kısım */}
                     <div className="d-flex justify-content-between align-items-center mb-3">
                         <span className="badge bg-secondary">
                             {post.status === "watched" ? "İzlendi" : "İzlenecek"}
